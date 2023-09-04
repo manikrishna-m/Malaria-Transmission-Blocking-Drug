@@ -1,0 +1,565 @@
+<protocol VERSION="4">
+<blocks>
+<workflow ID="373160351" blockType="plugins.adufour.blocks.lang.SequenceFileBatch" className="plugins.adufour.blocks.lang.SequenceFileBatch" collapsed="false" definedName="Sequence file batch" height="732" keepsResults="true" width="1100" xLocation="59" yLocation="42">
+<blocks>
+<block ID="1773021908" blockType="plugins.tprovoost.sequenceblocks.infos.GetFileName" className="plugins.tprovoost.sequenceblocks.SequenceBlocks" collapsed="true" definedName="Get file name" height="141" keepsResults="true" width="251" xLocation="645" yLocation="301">
+<variables>
+<input>
+<variable ID="sequence" name="Sequence" runtime="false" visible="true"/>
+<variable ID="folder" name="Folder" runtime="false" value="false" visible="true"/>
+<variable ID="extension" name="Extension" runtime="false" value="true" visible="true"/>
+</input>
+<output>
+<variable ID="name" name="Filename" runtime="false" visible="true"/>
+</output>
+</variables>
+</block>
+<block ID="605374531" blockType="plugins.adufour.blocks.tools.roi.GetROIFromSequence" className="plugins.adufour.blocks.tools.roi.GetROIFromSequence" collapsed="true" definedName="Get ROI from sequence" height="110" keepsResults="true" width="235" xLocation="217" yLocation="161">
+<variables>
+<input>
+<variable ID="input sequence" name="Source" runtime="false" visible="true"/>
+<variable ID="selection state of ROI to extract" name="ROI to get" runtime="false" value="ALL" visible="true"/>
+</input>
+<output>
+<variable ID="extracted rois" name="List of ROI" runtime="false" visible="true"/>
+</output>
+</variables>
+</block>
+<block ID="1844623748" blockType="plugins.tprovoost.sequenceblocks.extract.ExtractChannel" className="plugins.tprovoost.sequenceblocks.SequenceBlocks" collapsed="true" definedName="Extract channel" height="115" keepsResults="true" width="251" xLocation="47" yLocation="437">
+<variables>
+<input>
+<variable ID="sequence" name="Sequence" runtime="false" visible="true"/>
+<variable ID="channel" name="Channel" runtime="false" value="1" visible="true"/>
+</input>
+<output>
+<variable ID="extracted" name="Extracted" runtime="false" visible="true"/>
+</output>
+</variables>
+</block>
+<block ID="649669337" blockType="plugins.tprovoost.sequenceblocks.add.AddRois" className="plugins.tprovoost.sequenceblocks.SequenceBlocks" collapsed="true" definedName="Add rois" height="113" keepsResults="true" width="301" xLocation="272" yLocation="542">
+<variables>
+<input>
+<variable ID="sequence" name="Sequence" runtime="false" visible="true"/>
+<variable ID="rois(s)" name="Roi(s)" runtime="false" visible="true"/>
+<variable ID="remove" name="Remove previous" runtime="false" value="false" visible="true"/>
+</input>
+<output/>
+</variables>
+</block>
+<block ID="1663437552" blockType="plugins.tprovoost.scripteditor.scriptblock.Javascript" className="plugins.tprovoost.scripteditor.scriptblock.Javascript" collapsed="true" definedName="Javascript" height="547" keepsResults="true" width="617" xLocation="492" yLocation="544">
+<variables>
+<input>
+<variable ID="Script" name="" runtime="false" value="importClass(Packages.icy.file.FileUtil)&#10;importClass(Packages.icy.util.XLSUtil)&#10;importClass(Packages.icy.roi.ROIUtil)&#10; &#10;sequence = input1;&#10;roisblue = sequence.getROI2Ds();&#10;roiblue = roisblue.get(0);&#10;//roi =  input0(0);&#10;//roi = sequence.getSelectedROI();&#10;&#10;output0 = ROIUtil.getMeanIntensity(sequence, roiblue, 0, 0, 0);&#10;&#10;output1 = sequence;" visible="true"/>
+<variable ID="Add Input" name="Add Input" runtime="false" value="1" visible="true"/>
+<variable ID="Add output" name="Add Output" runtime="false" value="1" visible="true"/>
+<variable ID="input0" name="input0" runtime="false" type="[Licy.roi.ROI;" visible="true"/>
+<variable ID="159462553" name="input1" runtime="true" type="icy.sequence.Sequence" visible="true"/>
+</input>
+<output>
+<variable ID="output0" name="output0" runtime="false" type="java.lang.Double" visible="true"/>
+<variable ID="1256372564" name="output1" runtime="true" type="icy.sequence.Sequence" visible="true"/>
+</output>
+</variables>
+</block>
+<block ID="2135795434" blockType="plugins.ylemontag.mathoperations.MathOperationExpressionBlock" className="plugins.ylemontag.mathoperations.MathOperationPlugin" collapsed="true" definedName="Math operation expression" height="192" keepsResults="true" width="251" xLocation="666" yLocation="544">
+<variables>
+<input>
+<variable ID="Operation" name="" runtime="false" value="x-y" visible="true"/>
+<variable ID="dyn-x" name="x" runtime="true" type="icy.sequence.Sequence" visible="true"/>
+<variable ID="dyn-y" name="y" runtime="true" type="java.lang.Double" visible="true"/>
+</input>
+<output>
+<variable ID="Out" name="result" runtime="false" type="icy.sequence.Sequence" visible="true"/>
+</output>
+</variables>
+</block>
+<block ID="1573483489" blockType="plugins.tprovoost.sequenceblocks.extract.ExtractChannel" className="plugins.tprovoost.sequenceblocks.SequenceBlocks" collapsed="true" definedName="Extract channel" height="115" keepsResults="true" width="298" xLocation="337" yLocation="70">
+<variables>
+<input>
+<variable ID="sequence" name="Sequence" runtime="false" visible="true"/>
+<variable ID="channel" name="Channel" runtime="false" value="0" visible="true"/>
+</input>
+<output>
+<variable ID="extracted" name="Extracted" runtime="false" visible="true"/>
+</output>
+</variables>
+</block>
+<block ID="146110877" blockType="plugins.tprovoost.sequenceblocks.add.AddRois" className="plugins.tprovoost.sequenceblocks.SequenceBlocks" collapsed="true" definedName="Add rois" height="113" keepsResults="true" width="348" xLocation="553" yLocation="102">
+<variables>
+<input>
+<variable ID="sequence" name="Sequence" runtime="false" visible="true"/>
+<variable ID="rois(s)" name="Roi(s)" runtime="false" visible="true"/>
+<variable ID="remove" name="Remove previous" runtime="false" value="false" visible="true"/>
+</input>
+<output/>
+</variables>
+</block>
+<block ID="1170867748" blockType="plugins.tprovoost.scripteditor.scriptblock.Javascript" className="plugins.tprovoost.scripteditor.scriptblock.Javascript" collapsed="true" definedName="Javascript" height="547" keepsResults="true" width="617" xLocation="726" yLocation="104">
+<variables>
+<input>
+<variable ID="Script" name="" runtime="false" value="importClass(Packages.icy.file.FileUtil)&#10;importClass(Packages.icy.util.XLSUtil)&#10;importClass(Packages.icy.roi.ROIUtil)&#10; &#10;sequence = input1;&#10;rois = sequence.getROI2Ds();&#10;roi = rois.get(0);&#10;//roi =  input0(0);&#10;//roi = sequence.getSelectedROI();&#10;&#10;output0 = ROIUtil.getMeanIntensity(sequence, roi, 0, 0, 0);&#10;&#10;output1 = sequence;" visible="true"/>
+<variable ID="Add Input" name="Add Input" runtime="false" value="1" visible="true"/>
+<variable ID="Add output" name="Add Output" runtime="false" value="1" visible="true"/>
+<variable ID="input0" name="input0" runtime="false" type="[Licy.roi.ROI;" visible="true"/>
+<variable ID="1038535645" name="input1" runtime="true" type="icy.sequence.Sequence" visible="true"/>
+</input>
+<output>
+<variable ID="output0" name="output0" runtime="false" type="java.lang.Double" visible="true"/>
+<variable ID="1043177786" name="output1" runtime="true" type="icy.sequence.Sequence" visible="true"/>
+</output>
+</variables>
+</block>
+<block ID="122160854" blockType="plugins.ylemontag.mathoperations.MathOperationExpressionBlock" className="plugins.ylemontag.mathoperations.MathOperationPlugin" collapsed="true" definedName="Math operation expression" height="221" keepsResults="true" width="251" xLocation="910" yLocation="115">
+<variables>
+<input>
+<variable ID="Operation" name="" runtime="false" value="x-y" visible="true"/>
+<variable ID="dyn-x" name="x" runtime="true" type="icy.sequence.Sequence" visible="true"/>
+<variable ID="dyn-y" name="y" runtime="true" type="java.lang.Double" visible="true"/>
+</input>
+<output>
+<variable ID="Out" name="result" runtime="false" type="icy.sequence.Sequence" visible="true"/>
+</output>
+</variables>
+</block>
+<block ID="836130057" blockType="plugins.tprovoost.scripteditor.scriptblock.Javascript" className="plugins.tprovoost.scripteditor.scriptblock.Javascript" collapsed="false" definedName="Javascript" height="547" keepsResults="true" width="617" xLocation="1040" yLocation="274">
+<variables>
+<input>
+<variable ID="Script" name="" runtime="false" value="importClass(Packages.icy.file.Saver)&#10;importClass(Packages.icy.sequence.SequenceUtil)&#10;importClass(Packages.icy.sequence.Sequence)&#10;importClass(Packages.icy.file.Loader)&#10;importClass(Packages.icy.file.FileUtil)&#10;importClass(Packages.java.io.File)&#10;importClass(Packages.plugins.tprovoost.scripteditor.uitools.filedialogs.FileDialog)&#10;&#10;//load the three individual channels&#10; seqblue = input0;&#10; seqgreen = input1;&#10; seqred = input2;&#10;&#10;//determine the canvas size using seqblue as reference&#10;w = seqblue.getWidth()&#10;h = seqblue.getHeight()&#10;type = seqblue.getDataType_()&#10;&#10;channels = []&#10;channels[0] = seqblue&#10;channels[1] = seqgreen&#10;&#10;&#10;merge = SequenceUtil.concatC(channels)&#10;output0 = merge&#10;&#10;&#10;//seqmerged = new Sequence(new IcyBufferedImage(w, h, 3, type))&#10;&#10;&#10;" visible="true"/>
+<variable ID="Add Input" name="Add Input" runtime="false" value="2" visible="true"/>
+<variable ID="Add output" name="Add Output" runtime="false" value="1" visible="true"/>
+<variable ID="input0" name="input0" runtime="false" type="icy.sequence.Sequence" visible="true"/>
+<variable ID="558697714" name="input1" runtime="true" type="icy.sequence.Sequence" visible="true"/>
+<variable ID="360801158" name="input2" runtime="true" type="icy.sequence.Sequence" value="" visible="true"/>
+</input>
+<output>
+<variable ID="output0" name="output0" runtime="false" type="icy.sequence.Sequence" visible="true"/>
+<variable ID="398769180" name="output1" runtime="true" type="java.lang.Object" visible="true"/>
+</output>
+</variables>
+</block>
+<block ID="70012675" blockType="plugins.tprovoost.sequenceblocks.infos.SetChannelName" className="plugins.tprovoost.sequenceblocks.SequenceBlocks" collapsed="false" definedName="Set channel name" height="125" keepsResults="true" width="298" xLocation="1339" yLocation="545">
+<variables>
+<input>
+<variable ID="sequence" name="Sequence" runtime="false" visible="true"/>
+<variable ID="index" name="Channel" runtime="false" value="0" visible="true"/>
+<variable ID="name" name="Name" runtime="false" value="DAPI" visible="true"/>
+</input>
+<output/>
+</variables>
+</block>
+<block ID="727637944" blockType="plugins.tprovoost.sequenceblocks.infos.SetChannelName" className="plugins.tprovoost.sequenceblocks.SequenceBlocks" collapsed="false" definedName="Set channel name" height="125" keepsResults="true" width="298" xLocation="1719" yLocation="447">
+<variables>
+<input>
+<variable ID="sequence" name="Sequence" runtime="false" visible="true"/>
+<variable ID="index" name="Channel" runtime="false" value="1" visible="true"/>
+<variable ID="name" name="Name" runtime="false" value="Tubulin" visible="true"/>
+</input>
+<output/>
+</variables>
+</block>
+<block ID="1505650659" blockType="plugins.tprovoost.sequenceblocks.infos.SetColormap" className="plugins.tprovoost.sequenceblocks.SequenceBlocks" collapsed="false" definedName="Set colormap" height="123" keepsResults="true" width="304" xLocation="2101" yLocation="517">
+<variables>
+<input>
+<variable ID="input" name="Sequence" runtime="false" visible="true"/>
+<variable ID="numChannel" name="Channel" runtime="false" value="0" visible="true"/>
+<variable ID="colormap" name="Color map" runtime="false" visible="true">
+<colormap>
+<name>Blue</name>
+<enabled>true</enabled>
+<type>RGB</type>
+<red rawdata="false">
+<point>
+<index>0</index>
+<value>0</value>
+</point>
+<point>
+<index>255</index>
+<value>0</value>
+</point>
+</red>
+<green rawdata="false">
+<point>
+<index>0</index>
+<value>0</value>
+</point>
+<point>
+<index>255</index>
+<value>0</value>
+</point>
+</green>
+<blue rawdata="false">
+<point>
+<index>0</index>
+<value>0</value>
+</point>
+<point>
+<index>255</index>
+<value>255</value>
+</point>
+</blue>
+<gray rawdata="false">
+<point>
+<index>0</index>
+<value>0</value>
+</point>
+<point>
+<index>255</index>
+<value>85</value>
+</point>
+</gray>
+<alpha rawdata="false">
+<point>
+<index>0</index>
+<value>255</value>
+</point>
+<point>
+<index>255</index>
+<value>255</value>
+</point>
+</alpha>
+</colormap>
+</variable>
+</input>
+<output/>
+</variables>
+</block>
+<block ID="1116881603" blockType="plugins.tprovoost.sequenceblocks.infos.SetColormap" className="plugins.tprovoost.sequenceblocks.SequenceBlocks" collapsed="false" definedName="Set colormap" height="123" keepsResults="true" width="304" xLocation="2441" yLocation="518">
+<variables>
+<input>
+<variable ID="input" name="Sequence" runtime="false" visible="true"/>
+<variable ID="numChannel" name="Channel" runtime="false" value="1" visible="true"/>
+<variable ID="colormap" name="Color map" runtime="false" visible="true">
+<colormap>
+<name>Green</name>
+<enabled>true</enabled>
+<type>RGB</type>
+<red rawdata="false">
+<point>
+<index>0</index>
+<value>0</value>
+</point>
+<point>
+<index>255</index>
+<value>0</value>
+</point>
+</red>
+<green rawdata="false">
+<point>
+<index>0</index>
+<value>0</value>
+</point>
+<point>
+<index>255</index>
+<value>255</value>
+</point>
+</green>
+<blue rawdata="false">
+<point>
+<index>0</index>
+<value>0</value>
+</point>
+<point>
+<index>255</index>
+<value>0</value>
+</point>
+</blue>
+<gray rawdata="false">
+<point>
+<index>0</index>
+<value>0</value>
+</point>
+<point>
+<index>255</index>
+<value>85</value>
+</point>
+</gray>
+<alpha rawdata="false">
+<point>
+<index>0</index>
+<value>255</value>
+</point>
+<point>
+<index>255</index>
+<value>255</value>
+</point>
+</alpha>
+</colormap>
+</variable>
+</input>
+<output/>
+</variables>
+</block>
+<block ID="7314976" blockType="plugins.tprovoost.sequenceblocks.infos.SetName" className="plugins.tprovoost.sequenceblocks.SequenceBlocks" collapsed="false" definedName="Set name" height="115" keepsResults="true" width="251" xLocation="3023" yLocation="251">
+<variables>
+<input>
+<variable ID="sequence" name="Sequence" runtime="false" visible="true"/>
+<variable ID="name" name="Name" runtime="false" visible="true"/>
+</input>
+<output/>
+</variables>
+</block>
+<block ID="2126362239" blockType="plugins.adufour.blocks.tools.io.SequenceToFile" className="plugins.adufour.blocks.tools.io.SequenceToFile" collapsed="false" definedName="Sequence to file" height="83" keepsResults="true" width="272" xLocation="3308" yLocation="244">
+<variables>
+<input>
+<variable ID="folder" name="File or folder" runtime="false" value="E:\LSHTM\Projects\Male gametogenesis and machine learning\LSHTM expts\221019 timecourse ML10 TC04 TC13 TC41\Blanked" visible="true"/>
+<variable ID="sequence" name="sequence" runtime="false" visible="true"/>
+</input>
+<output/>
+</variables>
+</block>
+<block ID="1116380763" blockType="plugins.tprovoost.scripteditor.scriptblock.Javascript" className="plugins.tprovoost.scripteditor.scriptblock.Javascript" collapsed="true" definedName="Javascript" height="547" keepsResults="true" width="617" xLocation="370" yLocation="53">
+<variables>
+<input>
+<variable ID="Script" name="" runtime="false" value="//1. set image folder&#10;//2. set output file folder&#10;//3. Set the colomap blocks to green, blue, red" visible="true"/>
+<variable ID="Add Input" name="Add Input" runtime="false" value="0" visible="true"/>
+<variable ID="Add output" name="Add Output" runtime="false" value="0" visible="true"/>
+<variable ID="input0" name="input0" runtime="false" type="java.lang.Object" value="" visible="true"/>
+</input>
+<output>
+<variable ID="output0" name="output0" runtime="false" type="java.lang.Object" visible="true"/>
+</output>
+</variables>
+</block>
+<block ID="723436171" blockType="plugins.tprovoost.scripteditor.scriptblock.Javascript" className="plugins.tprovoost.scripteditor.scriptblock.Javascript" collapsed="false" definedName="Javascript" height="443" keepsResults="true" width="547" xLocation="133" yLocation="153">
+<variables>
+<input>
+<variable ID="Script" name="" runtime="false" value="//Instructions&#10;//&#10;//This protocol will subtract background levels of&#10;//fluorescence from each image.&#10;// Each image requires one ROI drawn in a&#10;//representative area without cells. This protocol&#10;//will only work with images with 2 channels.&#10;//&#10;//In the top left, select the top level folder containing&#10;//your cells (if they aren't in nd2 format, then change&#10;//to whatever is appropriate.&#10;//&#10;//Scroll to the extreme right, in the box&#10;//&quot;Sequence to file&quot; add your destination folder for &#10;//blanked images.&#10;//&#10;//(Optional) In the &quot;Set channel Name&quot; and &quot;Set colormap&quot;&#10;//boxes you can label the channels and set their colour map." visible="true"/>
+<variable ID="Add Input" name="Add Input" runtime="false" value="0" visible="true"/>
+<variable ID="Add output" name="Add Output" runtime="false" value="0" visible="true"/>
+<variable ID="input0" name="input0" runtime="false" type="java.lang.Object" value="" visible="true"/>
+</input>
+<output>
+<variable ID="output0" name="output0" runtime="false" type="java.lang.Object" visible="true"/>
+</output>
+</variables>
+</block>
+</blocks>
+<links>
+<link dstBlockID="605374531" dstVarID="input sequence" srcBlockID="373160351" srcVarID="Sequence"/>
+<link dstBlockID="1773021908" dstVarID="sequence" srcBlockID="373160351" srcVarID="Sequence"/>
+<link dstBlockID="7314976" dstVarID="name" srcBlockID="1773021908" srcVarID="name"/>
+<link dstBlockID="1573483489" dstVarID="sequence" srcBlockID="605374531" srcVarID="input sequence"/>
+<link dstBlockID="146110877" dstVarID="rois(s)" srcBlockID="605374531" srcVarID="extracted rois"/>
+<link dstBlockID="1844623748" dstVarID="sequence" srcBlockID="605374531" srcVarID="input sequence"/>
+<link dstBlockID="649669337" dstVarID="rois(s)" srcBlockID="605374531" srcVarID="extracted rois"/>
+<link dstBlockID="649669337" dstVarID="sequence" srcBlockID="1844623748" srcVarID="extracted"/>
+<link dstBlockID="1663437552" dstVarID="input0" srcBlockID="649669337" srcVarID="rois(s)"/>
+<link dstBlockID="1663437552" dstVarID="159462553" srcBlockID="649669337" srcVarID="sequence"/>
+<link dstBlockID="2135795434" dstVarID="dyn-y" srcBlockID="1663437552" srcVarID="output0" srcVarType="java.lang.Double"/>
+<link dstBlockID="2135795434" dstVarID="dyn-x" srcBlockID="1663437552" srcVarID="1256372564" srcVarType="icy.sequence.Sequence"/>
+<link dstBlockID="836130057" dstVarID="558697714" srcBlockID="2135795434" srcVarID="Out" srcVarType="icy.sequence.Sequence"/>
+<link dstBlockID="146110877" dstVarID="sequence" srcBlockID="1573483489" srcVarID="extracted"/>
+<link dstBlockID="1170867748" dstVarID="1038535645" srcBlockID="146110877" srcVarID="sequence"/>
+<link dstBlockID="1170867748" dstVarID="input0" srcBlockID="146110877" srcVarID="rois(s)"/>
+<link dstBlockID="122160854" dstVarID="dyn-x" srcBlockID="1170867748" srcVarID="1043177786" srcVarType="icy.sequence.Sequence"/>
+<link dstBlockID="122160854" dstVarID="dyn-y" srcBlockID="1170867748" srcVarID="output0" srcVarType="java.lang.Double"/>
+<link dstBlockID="836130057" dstVarID="input0" srcBlockID="122160854" srcVarID="Out" srcVarType="icy.sequence.Sequence"/>
+<link dstBlockID="70012675" dstVarID="sequence" srcBlockID="836130057" srcVarID="output0" srcVarType="icy.sequence.Sequence"/>
+<link dstBlockID="727637944" dstVarID="sequence" srcBlockID="70012675" srcVarID="sequence"/>
+<link dstBlockID="1505650659" dstVarID="input" srcBlockID="727637944" srcVarID="sequence"/>
+<link dstBlockID="1116881603" dstVarID="input" srcBlockID="1505650659" srcVarID="input"/>
+<link dstBlockID="7314976" dstVarID="sequence" srcBlockID="1116881603" srcVarID="input"/>
+<link dstBlockID="2126362239" dstVarID="sequence" srcBlockID="7314976" srcVarID="sequence"/>
+</links>
+<variables>
+<input>
+<variable ID="folder" blockID="373160351" value="E:\LSHTM\Projects\Male gametogenesis and machine learning\LSHTM expts\221019 timecourse ML10 TC04 TC13 TC41\Raw\TC13\T0" visible="true"/>
+<variable ID="extension" blockID="373160351" value="nd2" visible="true"/>
+<variable ID="Include sub-folders" blockID="373160351" value="true" visible="true"/>
+<variable ID="1773021908:sequence" blockID="1773021908" value="No Sequence" visible="false"/>
+<variable ID="1773021908:folder" blockID="1773021908" value="false" visible="false"/>
+<variable ID="1773021908:extension" blockID="1773021908" value="true" visible="false"/>
+<variable ID="605374531:input sequence" blockID="605374531" value="No Sequence" visible="false"/>
+<variable ID="605374531:selection state of ROI to extract" blockID="605374531" value="ALL" visible="false"/>
+<variable ID="1844623748:sequence" blockID="1844623748" value="No Sequence" visible="false"/>
+<variable ID="1844623748:channel" blockID="1844623748" value="1" visible="false"/>
+<variable ID="649669337:sequence" blockID="649669337" value="No Sequence" visible="false"/>
+<variable ID="649669337:rois(s)" blockID="649669337" value="No ROI" visible="false"/>
+<variable ID="649669337:remove" blockID="649669337" value="false" visible="false"/>
+<variable ID="1663437552:Script" blockID="1663437552" value="importClass(Packages.icy.file.FileUtil)&#10;importClass(Packages.icy.util.XLSUtil)&#10;importClass(Packages.icy.roi.ROIUtil)&#10; &#10;sequence = input1;&#10;roisblue = sequence.getROI2Ds();&#10;roiblue = roisblue.get(0);&#10;//roi =  input0(0);&#10;//roi = sequence.getSelectedROI();&#10;&#10;output0 = ROIUtil.getMeanIntensity(sequence, roiblue, 0, 0, 0);&#10;&#10;output1 = sequence;" visible="false"/>
+<variable ID="1663437552:Add Input" blockID="1663437552" value="1" visible="false"/>
+<variable ID="1663437552:Add output" blockID="1663437552" value="1" visible="false"/>
+<variable ID="1663437552:input0" blockID="1663437552" value="" visible="false"/>
+<variable ID="1663437552:159462553" blockID="1663437552" value="" visible="false"/>
+<variable ID="2135795434:Operation" blockID="2135795434" value="x-y" visible="false"/>
+<variable ID="2135795434:dyn-x" blockID="2135795434" value="" visible="false"/>
+<variable ID="2135795434:dyn-y" blockID="2135795434" value="" visible="false"/>
+<variable ID="1573483489:sequence" blockID="1573483489" value="No Sequence" visible="false"/>
+<variable ID="1573483489:channel" blockID="1573483489" value="0" visible="false"/>
+<variable ID="146110877:sequence" blockID="146110877" value="No Sequence" visible="false"/>
+<variable ID="146110877:rois(s)" blockID="146110877" value="No ROI" visible="false"/>
+<variable ID="146110877:remove" blockID="146110877" value="false" visible="false"/>
+<variable ID="1170867748:Script" blockID="1170867748" value="importClass(Packages.icy.file.FileUtil)&#10;importClass(Packages.icy.util.XLSUtil)&#10;importClass(Packages.icy.roi.ROIUtil)&#10; &#10;sequence = input1;&#10;rois = sequence.getROI2Ds();&#10;roi = rois.get(0);&#10;//roi =  input0(0);&#10;//roi = sequence.getSelectedROI();&#10;&#10;output0 = ROIUtil.getMeanIntensity(sequence, roi, 0, 0, 0);&#10;&#10;output1 = sequence;" visible="false"/>
+<variable ID="1170867748:Add Input" blockID="1170867748" value="1" visible="false"/>
+<variable ID="1170867748:Add output" blockID="1170867748" value="1" visible="false"/>
+<variable ID="1170867748:input0" blockID="1170867748" value="" visible="false"/>
+<variable ID="1170867748:1038535645" blockID="1170867748" value="" visible="false"/>
+<variable ID="122160854:Operation" blockID="122160854" value="x-y" visible="false"/>
+<variable ID="122160854:dyn-x" blockID="122160854" value="" visible="false"/>
+<variable ID="122160854:dyn-y" blockID="122160854" value="" visible="false"/>
+<variable ID="836130057:Script" blockID="836130057" value="importClass(Packages.icy.file.Saver)&#10;importClass(Packages.icy.sequence.SequenceUtil)&#10;importClass(Packages.icy.sequence.Sequence)&#10;importClass(Packages.icy.file.Loader)&#10;importClass(Packages.icy.file.FileUtil)&#10;importClass(Packages.java.io.File)&#10;importClass(Packages.plugins.tprovoost.scripteditor.uitools.filedialogs.FileDialog)&#10;&#10;//load the three individual channels&#10; seqblue = input0;&#10; seqgreen = input1;&#10; seqred = input2;&#10;&#10;//determine the canvas size using seqblue as reference&#10;w = seqblue.getWidth()&#10;h = seqblue.getHeight()&#10;type = seqblue.getDataType_()&#10;&#10;channels = []&#10;channels[0] = seqblue&#10;channels[1] = seqgreen&#10;&#10;&#10;merge = SequenceUtil.concatC(channels)&#10;output0 = merge&#10;&#10;&#10;//seqmerged = new Sequence(new IcyBufferedImage(w, h, 3, type))&#10;&#10;&#10;" visible="false"/>
+<variable ID="836130057:Add Input" blockID="836130057" value="2" visible="false"/>
+<variable ID="836130057:Add output" blockID="836130057" value="1" visible="false"/>
+<variable ID="836130057:input0" blockID="836130057" value="" visible="false"/>
+<variable ID="836130057:558697714" blockID="836130057" value="" visible="false"/>
+<variable ID="836130057:360801158" blockID="836130057" value="" visible="false"/>
+<variable ID="70012675:sequence" blockID="70012675" value="No Sequence" visible="false"/>
+<variable ID="70012675:index" blockID="70012675" value="0" visible="false"/>
+<variable ID="70012675:name" blockID="70012675" value="DAPI" visible="false"/>
+<variable ID="727637944:sequence" blockID="727637944" value="No Sequence" visible="false"/>
+<variable ID="727637944:index" blockID="727637944" value="1" visible="false"/>
+<variable ID="727637944:name" blockID="727637944" value="Tubulin" visible="false"/>
+<variable ID="1505650659:input" blockID="1505650659" value="No Sequence" visible="false"/>
+<variable ID="1505650659:numChannel" blockID="1505650659" value="0" visible="false"/>
+<variable ID="1505650659:colormap" blockID="1505650659" visible="false">
+<colormap>
+<name>Blue</name>
+<enabled>true</enabled>
+<type>RGB</type>
+<red rawdata="false">
+<point>
+<index>0</index>
+<value>0</value>
+</point>
+<point>
+<index>255</index>
+<value>0</value>
+</point>
+</red>
+<green rawdata="false">
+<point>
+<index>0</index>
+<value>0</value>
+</point>
+<point>
+<index>255</index>
+<value>0</value>
+</point>
+</green>
+<blue rawdata="false">
+<point>
+<index>0</index>
+<value>0</value>
+</point>
+<point>
+<index>255</index>
+<value>255</value>
+</point>
+</blue>
+<gray rawdata="false">
+<point>
+<index>0</index>
+<value>0</value>
+</point>
+<point>
+<index>255</index>
+<value>85</value>
+</point>
+</gray>
+<alpha rawdata="false">
+<point>
+<index>0</index>
+<value>255</value>
+</point>
+<point>
+<index>255</index>
+<value>255</value>
+</point>
+</alpha>
+</colormap>
+</variable>
+<variable ID="1116881603:input" blockID="1116881603" value="No Sequence" visible="false"/>
+<variable ID="1116881603:numChannel" blockID="1116881603" value="1" visible="false"/>
+<variable ID="1116881603:colormap" blockID="1116881603" visible="false">
+<colormap>
+<name>Green</name>
+<enabled>true</enabled>
+<type>RGB</type>
+<red rawdata="false">
+<point>
+<index>0</index>
+<value>0</value>
+</point>
+<point>
+<index>255</index>
+<value>0</value>
+</point>
+</red>
+<green rawdata="false">
+<point>
+<index>0</index>
+<value>0</value>
+</point>
+<point>
+<index>255</index>
+<value>255</value>
+</point>
+</green>
+<blue rawdata="false">
+<point>
+<index>0</index>
+<value>0</value>
+</point>
+<point>
+<index>255</index>
+<value>0</value>
+</point>
+</blue>
+<gray rawdata="false">
+<point>
+<index>0</index>
+<value>0</value>
+</point>
+<point>
+<index>255</index>
+<value>85</value>
+</point>
+</gray>
+<alpha rawdata="false">
+<point>
+<index>0</index>
+<value>255</value>
+</point>
+<point>
+<index>255</index>
+<value>255</value>
+</point>
+</alpha>
+</colormap>
+</variable>
+<variable ID="7314976:sequence" blockID="7314976" value="No Sequence" visible="false"/>
+<variable ID="7314976:name" blockID="7314976" value="" visible="false"/>
+<variable ID="2126362239:folder" blockID="2126362239" value="E:\LSHTM\Projects\Male gametogenesis and machine learning\LSHTM expts\221019 timecourse ML10 TC04 TC13 TC41\Blanked" visible="false"/>
+<variable ID="2126362239:sequence" blockID="2126362239" value="No Sequence" visible="false"/>
+<variable ID="1116380763:Script" blockID="1116380763" value="//1. set image folder&#10;//2. set output file folder&#10;//3. Set the colomap blocks to green, blue, red" visible="false"/>
+<variable ID="1116380763:Add Input" blockID="1116380763" value="0" visible="false"/>
+<variable ID="1116380763:Add output" blockID="1116380763" value="0" visible="false"/>
+<variable ID="1116380763:input0" blockID="1116380763" value="" visible="false"/>
+<variable ID="723436171:Script" blockID="723436171" value="//Instructions&#10;//&#10;//This protocol will subtract background levels of&#10;//fluorescence from each image.&#10;// Each image requires one ROI drawn in a&#10;//representative area without cells. This protocol&#10;//will only work with images with 2 channels.&#10;//&#10;//In the top left, select the top level folder containing&#10;//your cells (if they aren't in nd2 format, then change&#10;//to whatever is appropriate.&#10;//&#10;//Scroll to the extreme right, in the box&#10;//&quot;Sequence to file&quot; add your destination folder for &#10;//blanked images.&#10;//&#10;//(Optional) In the &quot;Set channel Name&quot; and &quot;Set colormap&quot;&#10;//boxes you can label the channels and set their colour map." visible="false"/>
+<variable ID="723436171:Add Input" blockID="723436171" value="0" visible="false"/>
+<variable ID="723436171:Add output" blockID="723436171" value="0" visible="false"/>
+<variable ID="723436171:input0" blockID="723436171" value="" visible="false"/>
+</input>
+<output>
+<variable ID="iteration" blockID="373160351" visible="true"/>
+<variable ID="Sequence" blockID="373160351" visible="true"/>
+<variable ID="1773021908:name" blockID="1773021908" visible="false"/>
+<variable ID="605374531:extracted rois" blockID="605374531" visible="false"/>
+<variable ID="1844623748:extracted" blockID="1844623748" visible="false"/>
+<variable ID="1663437552:output0" blockID="1663437552" visible="false"/>
+<variable ID="1663437552:1256372564" blockID="1663437552" visible="false"/>
+<variable ID="2135795434:Out" blockID="2135795434" visible="false"/>
+<variable ID="1573483489:extracted" blockID="1573483489" visible="false"/>
+<variable ID="1170867748:output0" blockID="1170867748" visible="false"/>
+<variable ID="1170867748:1043177786" blockID="1170867748" visible="false"/>
+<variable ID="122160854:Out" blockID="122160854" visible="false"/>
+<variable ID="836130057:output0" blockID="836130057" visible="false"/>
+<variable ID="836130057:398769180" blockID="836130057" visible="false"/>
+<variable ID="1116380763:output0" blockID="1116380763" visible="false"/>
+<variable ID="723436171:output0" blockID="723436171" visible="false"/>
+</output>
+</variables>
+</workflow>
+</blocks>
+<links/>
+</protocol>

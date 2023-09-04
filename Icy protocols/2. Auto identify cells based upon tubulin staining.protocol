@@ -1,0 +1,465 @@
+<protocol VERSION="4">
+<blocks>
+<workflow ID="813651617" blockType="plugins.adufour.blocks.lang.SequenceFileBatch" className="plugins.adufour.blocks.lang.SequenceFileBatch" collapsed="false" definedName="Sequence file batch" height="668" keepsResults="true" width="1328" xLocation="75" yLocation="0">
+<blocks>
+<block ID="1517916459" blockType="plugins.adufour.thresholder.KMeansThresholdBlock" className="plugins.adufour.thresholder.Thresholder" collapsed="false" definedName="K means threshold" height="147" keepsResults="true" width="296" xLocation="349" yLocation="5">
+<variables>
+<input>
+<variable ID="Input" name="Input" runtime="false" visible="true"/>
+<variable ID="Channel" name="Channel" runtime="false" value="1" visible="true"/>
+<variable ID="Classes" name="Classes" runtime="false" value="2" visible="true"/>
+</input>
+<output>
+<variable ID="thresholds" name="thresholds" runtime="false" visible="true"/>
+</output>
+</variables>
+</block>
+<block ID="1838109417" blockType="plugins.adufour.thresholder.Thresholder" className="plugins.adufour.thresholder.Thresholder" collapsed="false" definedName="Thresholder" height="198" keepsResults="true" width="371" xLocation="255" yLocation="351">
+<variables>
+<input>
+<variable ID="Input" name="Input" runtime="false" visible="true"/>
+<variable ID="channel" name="channel" runtime="false" value="1" visible="true"/>
+<variable ID="Manual thresholds" name="Manual thresholds" runtime="false" visible="true"/>
+<variable ID="Treat as percentiles" name="Treat as percentiles" runtime="false" value="false" visible="true"/>
+</input>
+<output>
+<variable ID="output" name="Binary output" runtime="false" visible="true"/>
+<variable ID="ROI" name="ROI" runtime="false" visible="true"/>
+</output>
+</variables>
+</block>
+<block ID="1163091658" blockType="plugins.adufour.roi.LabelExtractor" className="plugins.adufour.roi.LabelExtractor" collapsed="false" definedName="Label Extractor" height="142" keepsResults="true" width="362" xLocation="650" yLocation="207">
+<variables>
+<input>
+<variable ID="input sequence" name="Labeled sequence" runtime="false" visible="true"/>
+<variable ID="extract mode" name="Extract" runtime="false" value="ANY_LABEL_VS_BACKGROUND" visible="true"/>
+<variable ID="value" name="Value" runtime="false" value="0.0" visible="true"/>
+</input>
+<output>
+<variable ID="ROI" name="Extracted ROI" runtime="false" visible="true"/>
+</output>
+</variables>
+</block>
+<block ID="1058690082" blockType="plugins.stef.roi.bloc.op.FilterROIBySize" className="plugins.stef.roi.bloc.RoiBlocks" collapsed="false" definedName="Filter ROI by size" height="177" keepsResults="true" width="243" xLocation="754" yLocation="366">
+<variables>
+<input>
+<variable ID="roi" name="ROI(s)" runtime="false" visible="true"/>
+<variable ID="minSize" name="Min size (px)" runtime="false" value="8000.0" visible="true"/>
+<variable ID="maxSize" name="Max size (px)" runtime="false" value="500000.0" visible="true"/>
+<variable ID="incBorder" name="Include border pixels" runtime="false" value="true" visible="true"/>
+</input>
+<output>
+<variable ID="out" name="ROI(s)" runtime="false" visible="true"/>
+</output>
+</variables>
+</block>
+<block ID="1600129220" blockType="plugins.tprovoost.sequenceblocks.add.AddRois" className="plugins.tprovoost.sequenceblocks.SequenceBlocks" collapsed="false" definedName="Add rois" height="113" keepsResults="true" width="357" xLocation="1133" yLocation="81">
+<variables>
+<input>
+<variable ID="sequence" name="Sequence" runtime="false" visible="true"/>
+<variable ID="rois(s)" name="Roi(s)" runtime="false" visible="true"/>
+<variable ID="remove" name="Remove previous" runtime="false" value="true" visible="true"/>
+</input>
+<output/>
+</variables>
+</block>
+<block ID="702076554" blockType="plugins.adufour.activecontours.ActiveContours" className="plugins.adufour.activecontours.ActiveContours" collapsed="false" definedName="Active Contours" height="702" keepsResults="true" width="376" xLocation="1535" yLocation="34">
+<variables>
+<input>
+<variable ID="input sequence" name="Input" runtime="false" visible="true"/>
+<variable ID="Input ROI" name="input ROI" runtime="false" visible="true"/>
+<variable ID="regularization: weight" name="Contour smoothness" runtime="false" value="0.05" visible="false"/>
+<variable ID="edge: weight" name="Edge weight" runtime="false" value="0.0" visible="false"/>
+<variable ID="edge: channel" name="Find edges in channel" runtime="false" value="1" visible="false"/>
+<variable ID="region: weight" name="Region weight" runtime="false" value="1.0" visible="false"/>
+<variable ID="region: sensitivity" name="Region sensitivity" runtime="false" value="1.0" visible="false"/>
+<variable ID="region: channel" name="Find regions in channel" runtime="false" value="1" visible="false"/>
+<variable ID="balloon: weight" name="Contour inflation" runtime="false" value="0.0" visible="false"/>
+<variable ID="contour resolution" name="Contour sampling" runtime="false" value="2.0" visible="true"/>
+<variable ID="region bounds" name="Bound field to ROI of" runtime="false" value="No Sequence" visible="true"/>
+<variable ID="time step" name="Evolution time step" runtime="false" value="10.0" visible="true"/>
+<variable ID="convergence value" name="Convergence criterion" runtime="false" value="0.01" visible="true"/>
+<variable ID="max. iterations" name="Max. iterations" runtime="false" value="10000" visible="true"/>
+<variable ID="type of ROI output" name="Type of ROI" runtime="false" value="POLYGON" visible="true"/>
+<variable ID="tracking" name="Track objects over time" runtime="false" value="false" visible="true"/>
+<variable ID="division sensitivity" name="Division sensitivity" runtime="false" value="0.0" visible="true"/>
+<variable ID="axis constraint" name="Axis constraint" runtime="false" value="0.0" visible="true"/>
+<variable ID="Volume weight" name="Volume weight" runtime="false" value="0.01" visible="true"/>
+<variable ID="watch entering objects" name="Watch entering objects" runtime="false" value="false" visible="true"/>
+</input>
+<output>
+<variable ID="Regions of interest" name="Regions of interest" runtime="false" visible="true"/>
+<variable ID="Tracks" name="Tracks" runtime="false" visible="true"/>
+<variable ID="Labels" name="Labels" runtime="false" visible="true"/>
+</output>
+</variables>
+</block>
+<block ID="26352425" blockType="plugins.adufour.blocks.tools.roi.AddROIToSequence" className="plugins.adufour.blocks.tools.roi.AddROIToSequence" collapsed="false" definedName="Add ROI to sequence" height="113" keepsResults="true" width="294" xLocation="1999" yLocation="326">
+<variables>
+<input>
+<variable ID="target sequence" name="Source" runtime="false" visible="true"/>
+<variable ID="input rois" name="ROI to add" runtime="false" visible="true"/>
+<variable ID="replace existing" name="Overwrite" runtime="false" value="true" visible="true"/>
+</input>
+<output/>
+</variables>
+</block>
+<block ID="681883514" blockType="plugins.tprovoost.sequenceblocks.infos.SetColormap" className="plugins.tprovoost.sequenceblocks.SequenceBlocks" collapsed="false" definedName="Set colormap" height="123" keepsResults="true" width="257" xLocation="2379" yLocation="322">
+<variables>
+<input>
+<variable ID="input" name="Sequence" runtime="false" visible="true"/>
+<variable ID="numChannel" name="Channel" runtime="false" value="0" visible="true"/>
+<variable ID="colormap" name="Color map" runtime="false" visible="true">
+<colormap>
+<name>Blue</name>
+<enabled>true</enabled>
+<type>RGB</type>
+<red rawdata="false">
+<point>
+<index>0</index>
+<value>0</value>
+</point>
+<point>
+<index>255</index>
+<value>0</value>
+</point>
+</red>
+<green rawdata="false">
+<point>
+<index>0</index>
+<value>0</value>
+</point>
+<point>
+<index>255</index>
+<value>0</value>
+</point>
+</green>
+<blue rawdata="false">
+<point>
+<index>0</index>
+<value>0</value>
+</point>
+<point>
+<index>255</index>
+<value>255</value>
+</point>
+</blue>
+<gray rawdata="false">
+<point>
+<index>0</index>
+<value>0</value>
+</point>
+<point>
+<index>255</index>
+<value>85</value>
+</point>
+</gray>
+<alpha rawdata="false">
+<point>
+<index>0</index>
+<value>255</value>
+</point>
+<point>
+<index>255</index>
+<value>255</value>
+</point>
+</alpha>
+</colormap>
+</variable>
+</input>
+<output/>
+</variables>
+</block>
+<block ID="287130867" blockType="plugins.tprovoost.sequenceblocks.infos.SetColormap" className="plugins.tprovoost.sequenceblocks.SequenceBlocks" collapsed="false" definedName="Set colormap" height="123" keepsResults="true" width="257" xLocation="2695" yLocation="318">
+<variables>
+<input>
+<variable ID="input" name="Sequence" runtime="false" visible="true"/>
+<variable ID="numChannel" name="Channel" runtime="false" value="1" visible="true"/>
+<variable ID="colormap" name="Color map" runtime="false" visible="true">
+<colormap>
+<name>Green</name>
+<enabled>true</enabled>
+<type>RGB</type>
+<red rawdata="false">
+<point>
+<index>0</index>
+<value>0</value>
+</point>
+<point>
+<index>255</index>
+<value>0</value>
+</point>
+</red>
+<green rawdata="false">
+<point>
+<index>0</index>
+<value>0</value>
+</point>
+<point>
+<index>255</index>
+<value>255</value>
+</point>
+</green>
+<blue rawdata="false">
+<point>
+<index>0</index>
+<value>0</value>
+</point>
+<point>
+<index>255</index>
+<value>0</value>
+</point>
+</blue>
+<gray rawdata="false">
+<point>
+<index>0</index>
+<value>0</value>
+</point>
+<point>
+<index>255</index>
+<value>85</value>
+</point>
+</gray>
+<alpha rawdata="false">
+<point>
+<index>0</index>
+<value>255</value>
+</point>
+<point>
+<index>255</index>
+<value>255</value>
+</point>
+</alpha>
+</colormap>
+</variable>
+</input>
+<output/>
+</variables>
+</block>
+<block ID="1037046264" blockType="plugins.adufour.blocks.tools.io.SequenceToFile" className="plugins.adufour.blocks.tools.io.SequenceToFile" collapsed="false" definedName="Sequence to file" height="83" keepsResults="true" width="272" xLocation="3307" yLocation="293">
+<variables>
+<input>
+<variable ID="folder" name="File or folder" runtime="false" value="E:\LSHTM\Projects\Male gametogenesis and machine learning\LSHTM expts\200917\Masked" visible="true"/>
+<variable ID="sequence" name="sequence" runtime="false" visible="true"/>
+</input>
+<output/>
+</variables>
+</block>
+<block ID="301841024" blockType="plugins.tprovoost.scripteditor.scriptblock.Javascript" className="plugins.tprovoost.scripteditor.scriptblock.Javascript" collapsed="false" definedName="Javascript" height="443" keepsResults="true" width="547" xLocation="158" yLocation="106">
+<variables>
+<input>
+<variable ID="Script" name="" runtime="false" value="//Instructions&#10;//&#10;// This pipeline will identify cells based upon the&#10;//staining pattern channel 1 (tubulin in this case)&#10;//and draw and ROI around them.&#10;//It is optimised for my images so likely parameters&#10;//will need tweaking for other applications.&#10;//&#10;//In the top left, select the top level folder containing&#10;//your cells (if they aren't in tif format, then change&#10;//to whatever is appropriate.&#10;//&#10;//Scroll to the extreme right, in the box&#10;//&quot;Sequence to file&quot; add your destination folder for &#10;//blanked images.&#10;//&#10;//Changing the parameters in &quot;Active Contours&quot; will&#10;//effect how cells are identified.&#10;//If the features used for identification are not in&#10;//channel 1, then change the value &quot;channel&quot; to the&#10;//desired channel number all throuout this protocol&#10;//&#10;//(Optional) In the &quot;Set channel Name&quot; and &quot;Set colormap&quot;&#10;//boxes you can label the channels and set their colour map." visible="true"/>
+<variable ID="Add Input" name="Add Input" runtime="false" value="0" visible="true"/>
+<variable ID="Add output" name="Add Output" runtime="false" value="0" visible="true"/>
+<variable ID="input0" name="input0" runtime="false" type="java.lang.Object" value="" visible="true"/>
+</input>
+<output>
+<variable ID="output0" name="output0" runtime="false" type="java.lang.Object" visible="true"/>
+</output>
+</variables>
+</block>
+</blocks>
+<links>
+<link dstBlockID="1517916459" dstVarID="Input" srcBlockID="813651617" srcVarID="Sequence"/>
+<link dstBlockID="1838109417" dstVarID="Manual thresholds" srcBlockID="1517916459" srcVarID="thresholds"/>
+<link dstBlockID="1600129220" dstVarID="sequence" srcBlockID="1517916459" srcVarID="Input"/>
+<link dstBlockID="1838109417" dstVarID="Input" srcBlockID="1517916459" srcVarID="Input"/>
+<link dstBlockID="1163091658" dstVarID="input sequence" srcBlockID="1838109417" srcVarID="output"/>
+<link dstBlockID="1058690082" dstVarID="roi" srcBlockID="1163091658" srcVarID="ROI"/>
+<link dstBlockID="1600129220" dstVarID="rois(s)" srcBlockID="1058690082" srcVarID="out"/>
+<link dstBlockID="702076554" dstVarID="Input ROI" srcBlockID="1600129220" srcVarID="rois(s)"/>
+<link dstBlockID="702076554" dstVarID="input sequence" srcBlockID="1600129220" srcVarID="sequence"/>
+<link dstBlockID="26352425" dstVarID="target sequence" srcBlockID="702076554" srcVarID="input sequence"/>
+<link dstBlockID="26352425" dstVarID="input rois" srcBlockID="702076554" srcVarID="Regions of interest"/>
+<link dstBlockID="681883514" dstVarID="input" srcBlockID="26352425" srcVarID="target sequence"/>
+<link dstBlockID="287130867" dstVarID="input" srcBlockID="681883514" srcVarID="input"/>
+<link dstBlockID="1037046264" dstVarID="sequence" srcBlockID="287130867" srcVarID="input"/>
+</links>
+<variables>
+<input>
+<variable ID="folder" blockID="813651617" value="E:\LSHTM\Projects\Male gametogenesis and machine learning\LSHTM expts\200917\Normalised" visible="true"/>
+<variable ID="extension" blockID="813651617" value="tif" visible="true"/>
+<variable ID="Include sub-folders" blockID="813651617" value="true" visible="true"/>
+<variable ID="1517916459:Input" blockID="1517916459" value="No Sequence" visible="false"/>
+<variable ID="1517916459:Channel" blockID="1517916459" value="1" visible="false"/>
+<variable ID="1517916459:Classes" blockID="1517916459" value="2" visible="false"/>
+<variable ID="1838109417:Input" blockID="1838109417" value="No Sequence" visible="false"/>
+<variable ID="1838109417:channel" blockID="1838109417" value="1" visible="false"/>
+<variable ID="1838109417:Manual thresholds" blockID="1838109417" value="" visible="false"/>
+<variable ID="1838109417:Treat as percentiles" blockID="1838109417" value="false" visible="false"/>
+<variable ID="1163091658:input sequence" blockID="1163091658" value="No Sequence" visible="false"/>
+<variable ID="1163091658:extract mode" blockID="1163091658" value="ANY_LABEL_VS_BACKGROUND" visible="false"/>
+<variable ID="1163091658:value" blockID="1163091658" value="0.0" visible="false"/>
+<variable ID="1058690082:roi" blockID="1058690082" value="No ROI" visible="false"/>
+<variable ID="1058690082:minSize" blockID="1058690082" value="8000.0" visible="false"/>
+<variable ID="1058690082:maxSize" blockID="1058690082" value="500000.0" visible="false"/>
+<variable ID="1058690082:incBorder" blockID="1058690082" value="true" visible="false"/>
+<variable ID="1600129220:sequence" blockID="1600129220" value="No Sequence" visible="false"/>
+<variable ID="1600129220:rois(s)" blockID="1600129220" value="No ROI" visible="false"/>
+<variable ID="1600129220:remove" blockID="1600129220" value="true" visible="false"/>
+<variable ID="702076554:input sequence" blockID="702076554" value="No Sequence" visible="false"/>
+<variable ID="702076554:Input ROI" blockID="702076554" value="No ROI" visible="false"/>
+<variable ID="702076554:regularization: weight" blockID="702076554" value="0.05" visible="false"/>
+<variable ID="702076554:edge: weight" blockID="702076554" value="0.0" visible="false"/>
+<variable ID="702076554:edge: channel" blockID="702076554" value="1" visible="false"/>
+<variable ID="702076554:region: weight" blockID="702076554" value="1.0" visible="false"/>
+<variable ID="702076554:region: sensitivity" blockID="702076554" value="1.0" visible="false"/>
+<variable ID="702076554:region: channel" blockID="702076554" value="1" visible="false"/>
+<variable ID="702076554:balloon: weight" blockID="702076554" value="0.0" visible="false"/>
+<variable ID="702076554:contour resolution" blockID="702076554" value="2.0" visible="false"/>
+<variable ID="702076554:region bounds" blockID="702076554" value="No Sequence" visible="false"/>
+<variable ID="702076554:time step" blockID="702076554" value="10.0" visible="false"/>
+<variable ID="702076554:convergence value" blockID="702076554" value="0.01" visible="false"/>
+<variable ID="702076554:max. iterations" blockID="702076554" value="10000" visible="false"/>
+<variable ID="702076554:type of ROI output" blockID="702076554" value="POLYGON" visible="false"/>
+<variable ID="702076554:tracking" blockID="702076554" value="false" visible="false"/>
+<variable ID="702076554:division sensitivity" blockID="702076554" value="0.0" visible="false"/>
+<variable ID="702076554:axis constraint" blockID="702076554" value="0.0" visible="false"/>
+<variable ID="702076554:Volume weight" blockID="702076554" value="0.01" visible="false"/>
+<variable ID="702076554:watch entering objects" blockID="702076554" value="false" visible="false"/>
+<variable ID="26352425:target sequence" blockID="26352425" value="No Sequence" visible="false"/>
+<variable ID="26352425:input rois" blockID="26352425" value="No ROI" visible="false"/>
+<variable ID="26352425:replace existing" blockID="26352425" value="true" visible="false"/>
+<variable ID="681883514:input" blockID="681883514" value="No Sequence" visible="false"/>
+<variable ID="681883514:numChannel" blockID="681883514" value="0" visible="false"/>
+<variable ID="681883514:colormap" blockID="681883514" visible="false">
+<colormap>
+<name>Blue</name>
+<enabled>true</enabled>
+<type>RGB</type>
+<red rawdata="false">
+<point>
+<index>0</index>
+<value>0</value>
+</point>
+<point>
+<index>255</index>
+<value>0</value>
+</point>
+</red>
+<green rawdata="false">
+<point>
+<index>0</index>
+<value>0</value>
+</point>
+<point>
+<index>255</index>
+<value>0</value>
+</point>
+</green>
+<blue rawdata="false">
+<point>
+<index>0</index>
+<value>0</value>
+</point>
+<point>
+<index>255</index>
+<value>255</value>
+</point>
+</blue>
+<gray rawdata="false">
+<point>
+<index>0</index>
+<value>0</value>
+</point>
+<point>
+<index>255</index>
+<value>85</value>
+</point>
+</gray>
+<alpha rawdata="false">
+<point>
+<index>0</index>
+<value>255</value>
+</point>
+<point>
+<index>255</index>
+<value>255</value>
+</point>
+</alpha>
+</colormap>
+</variable>
+<variable ID="287130867:input" blockID="287130867" value="No Sequence" visible="false"/>
+<variable ID="287130867:numChannel" blockID="287130867" value="1" visible="false"/>
+<variable ID="287130867:colormap" blockID="287130867" visible="false">
+<colormap>
+<name>Green</name>
+<enabled>true</enabled>
+<type>RGB</type>
+<red rawdata="false">
+<point>
+<index>0</index>
+<value>0</value>
+</point>
+<point>
+<index>255</index>
+<value>0</value>
+</point>
+</red>
+<green rawdata="false">
+<point>
+<index>0</index>
+<value>0</value>
+</point>
+<point>
+<index>255</index>
+<value>255</value>
+</point>
+</green>
+<blue rawdata="false">
+<point>
+<index>0</index>
+<value>0</value>
+</point>
+<point>
+<index>255</index>
+<value>0</value>
+</point>
+</blue>
+<gray rawdata="false">
+<point>
+<index>0</index>
+<value>0</value>
+</point>
+<point>
+<index>255</index>
+<value>85</value>
+</point>
+</gray>
+<alpha rawdata="false">
+<point>
+<index>0</index>
+<value>255</value>
+</point>
+<point>
+<index>255</index>
+<value>255</value>
+</point>
+</alpha>
+</colormap>
+</variable>
+<variable ID="1037046264:folder" blockID="1037046264" value="E:\LSHTM\Projects\Male gametogenesis and machine learning\LSHTM expts\200917\Masked" visible="false"/>
+<variable ID="1037046264:sequence" blockID="1037046264" value="No Sequence" visible="false"/>
+<variable ID="301841024:Script" blockID="301841024" value="//Instructions&#10;//&#10;// This pipeline will identify cells based upon the&#10;//staining pattern channel 1 (tubulin in this case)&#10;//and draw and ROI around them.&#10;//It is optimised for my images so likely parameters&#10;//will need tweaking for other applications.&#10;//&#10;//In the top left, select the top level folder containing&#10;//your cells (if they aren't in tif format, then change&#10;//to whatever is appropriate.&#10;//&#10;//Scroll to the extreme right, in the box&#10;//&quot;Sequence to file&quot; add your destination folder for &#10;//blanked images.&#10;//&#10;//Changing the parameters in &quot;Active Contours&quot; will&#10;//effect how cells are identified.&#10;//If the features used for identification are not in&#10;//channel 1, then change the value &quot;channel&quot; to the&#10;//desired channel number all throuout this protocol&#10;//&#10;//(Optional) In the &quot;Set channel Name&quot; and &quot;Set colormap&quot;&#10;//boxes you can label the channels and set their colour map." visible="false"/>
+<variable ID="301841024:Add Input" blockID="301841024" value="0" visible="false"/>
+<variable ID="301841024:Add output" blockID="301841024" value="0" visible="false"/>
+<variable ID="301841024:input0" blockID="301841024" value="" visible="false"/>
+</input>
+<output>
+<variable ID="iteration" blockID="813651617" visible="true"/>
+<variable ID="Sequence" blockID="813651617" visible="true"/>
+<variable ID="1517916459:thresholds" blockID="1517916459" visible="false"/>
+<variable ID="1838109417:output" blockID="1838109417" visible="false"/>
+<variable ID="1838109417:ROI" blockID="1838109417" visible="false"/>
+<variable ID="1163091658:ROI" blockID="1163091658" visible="false"/>
+<variable ID="1058690082:out" blockID="1058690082" visible="false"/>
+<variable ID="702076554:Regions of interest" blockID="702076554" visible="false"/>
+<variable ID="702076554:Tracks" blockID="702076554" visible="false"/>
+<variable ID="702076554:Labels" blockID="702076554" visible="false"/>
+<variable ID="301841024:output0" blockID="301841024" visible="false"/>
+</output>
+</variables>
+</workflow>
+</blocks>
+<links/>
+</protocol>

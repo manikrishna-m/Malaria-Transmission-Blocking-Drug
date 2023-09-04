@@ -1,0 +1,270 @@
+convert_images:
+  cmd: python scripts/convert_raw.py --input-folder data/src/ --output-folder data/images/
+    --output-format jpg
+  deps:
+  - path: data/src/
+    md5: 1d00d141dec8f98d02dd14a94d4ed86f.dir
+    size: 20568032408
+    nfiles: 2779
+  - path: scripts/convert_raw.py
+    md5: d39762a275acbbbc5bdce1f16675b582
+    size: 3499
+  outs:
+  - path: data/images/
+    md5: 62ea11d0da75e3d58b5c69a825b8194e.dir
+    size: 103600719
+    nfiles: 1390
+extract_bboxes:
+  cmd: python scripts/extract_yolov5_bboxes.py --input-folder data/src/ --output-folder
+    data/labels/
+  deps:
+  - path: data/src/
+    md5: 1d00d141dec8f98d02dd14a94d4ed86f.dir
+    size: 20568032408
+    nfiles: 2779
+  - path: scripts/extract_yolov5_bboxes.py
+    md5: e77893187990073558c1c5cc77af6621
+    size: 4363
+  outs:
+  - path: data/labels/
+    md5: 59813461138f0167f050b8d97e366440.dir
+    size: 168425
+    nfiles: 1388
+augment_images:
+  cmd: python scripts/augment.py --image-input-folder data/images/ --labels-input-folder
+    data/labels/ --image-output-folder data/augmented/images/ --labels-output-folder
+    data/augmented/labels/ --image-extension jpg
+  deps:
+  - path: data/images/
+    md5: 62ea11d0da75e3d58b5c69a825b8194e.dir
+    size: 103600719
+    nfiles: 1390
+  - path: data/labels/
+    md5: 59813461138f0167f050b8d97e366440.dir
+    size: 168425
+    nfiles: 1388
+  - path: scripts/augment.py
+    md5: b67d1ccc098c6e15e7cf6843e324e264
+    size: 4543
+  outs:
+  - path: data/augmented/images/
+    md5: 402f7badaac76310c461feafcf496f41.dir
+    size: 1123827279
+    nfiles: 11104
+  - path: data/augmented/labels/
+    md5: 67ecfa20478688c0bc35b36c1d491c5a.dir
+    size: 1367490
+    nfiles: 11104
+train_test_split:
+  cmd: python scripts/train_test_split.py --images-folder data/augmented/images/ --images-format
+    jpg --labels-folder data/augmented/labels/ --output-folder data/ --train-size
+    0.95
+  deps:
+  - path: data/augmented/images/
+    md5: 402f7badaac76310c461feafcf496f41.dir
+    size: 1123827279
+    nfiles: 11104
+  - path: data/augmented/labels/
+    md5: 67ecfa20478688c0bc35b36c1d491c5a.dir
+    size: 1367490
+    nfiles: 11104
+  - path: scripts/train_test_split.py
+    md5: 99bf7386960a68fe3697b1a2dbddff80
+    size: 2795
+  outs:
+  - path: data/test.txt
+    md5: f3d3501d78b817aef90175a45e897cd9
+    size: 65739
+  - path: data/train.txt
+    md5: 20e19f63ab3cdb1e0892bfbf34e5b5ca
+    size: 1232675
+train:
+  cmd: mkdir -p runs/train && python train.py --img 640 --epochs 20 --batch-size 30
+    --weights yolov5s.pt --data ../data/malaria.yaml --exist-ok --single-cls --cache-images
+  deps:
+  - path: ../data/augmented/images/
+    md5: 402f7badaac76310c461feafcf496f41.dir
+    size: 1123827279
+    nfiles: 11104
+  - path: ../data/augmented/labels/
+    md5: 67ecfa20478688c0bc35b36c1d491c5a.dir
+    size: 1367490
+    nfiles: 11104
+  - path: ../data/malaria.yaml
+    md5: 40511eb87e281aadfe72d7aef7afcce4
+    size: 99
+  - path: ../data/test.txt
+    md5: f3d3501d78b817aef90175a45e897cd9
+    size: 65739
+  - path: ../data/train.txt
+    md5: 20e19f63ab3cdb1e0892bfbf34e5b5ca
+    size: 1232675
+  - path: train.py
+    md5: e0f9a927e442eb9ffb4304dc153ae6fe
+    size: 32279
+  - path: utils/
+    md5: 0b7d880cb4b52eedb294323d50de9cdc.dir
+    size: 234682
+    nfiles: 16
+  outs:
+  - path: runs/train/exp/
+    md5: 993e5a2c57bd86312e87a1c4ae0764fd.dir
+    size: 31326811
+    nfiles: 23
+copy_weights:
+  cmd: cp scripts/runs/train/exp/weights/best.pt data/best.pt
+  deps:
+  - path: scripts/runs/train/exp/
+    md5: 993e5a2c57bd86312e87a1c4ae0764fd.dir
+    size: 31326811
+    nfiles: 23
+  outs:
+  - path: data/best.pt
+    md5: 974ea21671c70dbe4518774389702cb3
+    size: 14402463
+detect_cells:
+  cmd: python detect.py --source ../data/images/ --save-txt --weights ../data/best.pt
+    --iou-thres 0.3
+  deps:
+  - path: ../data/best.pt
+    md5: 974ea21671c70dbe4518774389702cb3
+    size: 14402463
+  - path: ../data/images/
+    md5: 62ea11d0da75e3d58b5c69a825b8194e.dir
+    size: 103600719
+    nfiles: 1390
+  - path: detect.py
+    md5: 4deaa08da9c10517861439b7e0015c5a
+    size: 8193
+  - path: utils/
+    md5: 0b7d880cb4b52eedb294323d50de9cdc.dir
+    size: 234682
+    nfiles: 16
+  outs:
+  - path: runs/detect/exp/
+    md5: c8bb363f0bca883d4ba40f5363bd33cd.dir
+    size: 141284956
+    nfiles: 2780
+extract_cells:
+  cmd: python extract_cells.py --labels-folder runs/detect/exp/labels/ --images-folder
+    ../data/images/ --output-folder ../data/extracted/
+  deps:
+  - path: ../data/images/
+    md5: 62ea11d0da75e3d58b5c69a825b8194e.dir
+    size: 103600719
+    nfiles: 1390
+  - path: extract_cells.py
+    md5: c3d70affaff531ac75a5fd870f26ccd1
+    size: 2384
+  - path: runs/detect/exp/labels/
+    md5: b8c237b9fcc87009cef5ca1227bdefdb.dir
+    size: 105637
+    nfiles: 1390
+  outs:
+  - path: ../data/extracted/
+    md5: ef23217353e945044d62b08610547ca9.dir
+    size: 8598714
+    nfiles: 2707
+compute_embeddings:
+  cmd: python scripts/extract_embeddings.py --images data/extracted/*/*.jpg --output-file
+    data/embeddings.pkl
+  deps:
+  - path: data/extracted/
+    md5: ef23217353e945044d62b08610547ca9.dir
+    size: 8598714
+    nfiles: 2707
+  - path: scripts/extract_embeddings.py
+    md5: f5458e3ab9cc742eea42abc52311325e
+    size: 1876
+  outs:
+  - path: data/embeddings.pkl
+    md5: 5d1f09803b3982f1c37c811658db9fd8
+    size: 24673469
+compute_clusters:
+  cmd: python scripts/compute_clusters.py data/embeddings.pkl --output-file data/clusters.pkl
+  deps:
+  - path: data/embeddings.pkl
+    md5: 5d1f09803b3982f1c37c811658db9fd8
+    size: 24673469
+  - path: scripts/compute_clusters.py
+    md5: 13de0b1c7dec217a9833cce57dd3153d
+    size: 1967
+  outs:
+  - path: data/clusters.pkl
+    md5: 5170d7271a49020227e5c15b12d67d16
+    size: 336992
+reduce_dimensionality:
+  cmd: python scripts/reduce_dimensionality.py data/embeddings.pkl --output-file data/points.pkl
+  deps:
+  - path: data/embeddings.pkl
+    md5: 5d1f09803b3982f1c37c811658db9fd8
+    size: 24673469
+  - path: scripts/reduce_dimensionality.py
+    md5: 03c5efdc505e36ef5dcf11736f06fb37
+    size: 1186
+  outs:
+  - path: data/points.pkl
+    md5: 66f13fe19f24c2a91c5a599163247ae9
+    size: 399282
+prepare_plot:
+  cmd: python scripts/prepare_plot.py --points data/points.pkl --clusters data/clusters.pkl
+    --output-file data/plot.json --limit-images 10000
+  deps:
+  - path: data/clusters.pkl
+    md5: 5170d7271a49020227e5c15b12d67d16
+    size: 336992
+  - path: data/points.pkl
+    md5: 66f13fe19f24c2a91c5a599163247ae9
+    size: 399282
+  - path: scripts/prepare_plot.py
+    md5: aa073497103eb7d50cde9aabb687fa31
+    size: 2901
+  outs:
+  - path: data/plot.json
+    md5: 49723c6e548ed3733826237e34631597
+    size: 83635264
+export_clusters:
+  cmd: python scripts/export_clusters_csv.py --clusters data/clusters.pkl --output-file
+    data/clusters_export.csv
+  deps:
+  - path: data/clusters.pkl
+    md5: 5170d7271a49020227e5c15b12d67d16
+    size: 336992
+  - path: scripts/export_clusters_csv.py
+    md5: 1fd743ba6349ee1a241c42e882c57c66
+    size: 1032
+  outs:
+  - path: data/clusters_export.csv
+    md5: 142b30dce840e12d889b1ffde77b35c6
+    size: 531196
+export_points:
+  cmd: python scripts/export_points_csv.py --clusters data/points.pkl --output-file
+    data/points_export.csv
+  deps:
+  - path: data/points.pkl
+    md5: 66f13fe19f24c2a91c5a599163247ae9
+    size: 399282
+  - path: scripts/export_points_csv.py
+    md5: cebd6b8e711b1e8e9d43575a372fe68e
+    size: 1209
+  outs:
+  - path: data/points_export.csv
+    md5: 80b943c99341a1b2ff0da35f4cae52ef
+    size: 627303
+export_data:
+  cmd: python scripts/export_data_csv.py --clusters data/clusters.pkl --points data/points.pkl
+    --output-file data/export.csv
+  deps:
+  - path: data/clusters.pkl
+    md5: 5170d7271a49020227e5c15b12d67d16
+    size: 336992
+  - path: data/points.pkl
+    md5: 66f13fe19f24c2a91c5a599163247ae9
+    size: 399282
+  - path: scripts/export_data_csv.py
+    md5: 09e7b542ad7f561adcaec0ddec552c98
+    size: 1426
+  outs:
+  - path: data/export.csv
+    md5: d2a5872517e20ff2b471200b7e13cf94
+    size: 633678

@@ -1,0 +1,148 @@
+stages:
+  convert_images:
+    cmd: python scripts/convert_raw.py
+      --input-folder data/src/
+      --output-folder data/images/
+      --output-format jpg
+    deps:
+      - scripts/convert_raw.py
+      - data/src/
+    outs:
+      - data/images/
+  extract_bboxes:
+    cmd: python scripts/extract_yolov5_bboxes.py
+      --input-folder data/src/
+      --output-folder data/labels/
+    deps:
+      - scripts/extract_yolov5_bboxes.py
+      - data/src/
+    outs:
+      - data/labels/
+  augment_images:
+    cmd: python scripts/augment.py
+      --image-input-folder data/images/
+      --labels-input-folder data/labels/
+      --image-output-folder data/augmented/images/
+      --labels-output-folder data/augmented/labels/
+      --image-extension jpg
+    deps:
+      - data/images/
+      - data/labels/
+      - scripts/augment.py
+    outs:
+      - data/augmented/images/
+      - data/augmented/labels/
+  train_test_split:
+    cmd: python scripts/train_test_split.py
+      --images-folder data/augmented/images/
+      --images-format jpg
+      --labels-folder data/augmented/labels/
+      --output-folder data/
+      --train-size 0.95
+    deps:
+      - scripts/train_test_split.py
+      - data/augmented/images/
+      - data/augmented/labels/
+    outs:
+      - data/train.txt
+      - data/test.txt
+  train:
+    wdir: scripts/
+    cmd: mkdir -p runs/train && python train.py
+      --img 640
+      --epochs 20
+      --batch-size 30
+      --weights yolov5s.pt
+      --data ../data/malaria.yaml
+      --exist-ok
+      --single-cls
+      --cache-images
+    deps:
+      - ../data/augmented/labels/
+      - ../data/augmented/images/
+      - ../data/train.txt
+      - ../data/test.txt
+      - ../data/malaria.yaml
+      - utils/
+      - train.py
+    outs:
+      - runs/train/exp/
+  copy_weights:
+    cmd: cp scripts/runs/train/exp/weights/best.pt data/best.pt
+    deps:
+      - scripts/runs/train/exp/
+    outs:
+      - data/best.pt:
+          cache: false
+  detect_cells:
+    wdir: scripts/
+    cmd: python detect.py --source ../data/images/ --save-txt --weights ../data/best.pt --iou-thres 0.3
+    deps:
+      - ../data/best.pt
+      - ../data/images/
+      - utils/
+      - detect.py
+    outs:
+      - runs/detect/exp/
+  extract_cells:
+    wdir: scripts/
+    cmd: python extract_cells.py
+      --labels-folder runs/detect/exp/labels/
+      --images-folder ../data/images/
+      --output-folder ../data/extracted/
+    deps:
+      - extract_cells.py
+      - runs/detect/exp/labels/
+      - ../data/images/
+    outs:
+      - ../data/extracted/
+  compute_embeddings:
+    cmd: python scripts/extract_embeddings.py
+      --images data/extracted/*/*.jpg
+      --output-file data/embeddings.pkl
+    deps:
+      - scripts/extract_embeddings.py
+      - data/extracted/
+    outs:
+      - data/embeddings.pkl
+  reduce_dimensionality:
+    cmd: python scripts/reduce_dimensionality.py
+      data/embeddings.pkl
+      --output-file data/points.pkl
+    deps:
+      - scripts/reduce_dimensionality.py
+      - data/embeddings.pkl
+    outs:
+      - data/points.pkl
+  compute_clusters:
+    cmd: python scripts/compute_clusters.py
+      data/embeddings.pkl
+      --output-file data/clusters.pkl
+    deps:
+      - scripts/compute_clusters.py
+      - data/embeddings.pkl
+    outs:
+      - data/clusters.pkl
+  export_data:
+    cmd: python scripts/export_data_csv.py
+      --clusters data/clusters.pkl
+      --points data/points.pkl
+      --output-file data/export.csv
+    deps:
+      - data/clusters.pkl
+      - data/points.pkl
+      - scripts/export_data_csv.py
+    outs:
+      - data/export.csv
+  prepare_plot:
+    cmd: python scripts/prepare_plot.py
+      --points data/points.pkl
+      --clusters data/clusters.pkl
+      --output-file data/plot.json
+      --limit-images 10000
+    deps:
+      - scripts/prepare_plot.py
+      - data/clusters.pkl
+      - data/points.pkl
+    outs:
+      - data/plot.json

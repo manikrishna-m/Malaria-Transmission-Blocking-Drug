@@ -1,0 +1,19 @@
+python scripts/convert_raw.py --input-folder data/src/ --output-folder data/images/ --output-format jpg
+
+python scripts/extract_yolov5_bboxes.py --input-folder data/src/ --output-folder data/labels/
+
+python scripts/extract_cells.py --labels-folder data/labels/ --images-folder data/images/ --output-folder data/extracted/
+
+python scripts/extract_embeddings.py --images data/extracted/*/*.jpg --output-file data/embeddings.pkl
+
+python scripts/reduce_dimensionality.py data/embeddings.pkl --output-dir data/
+
+python scripts/compute_clusters.py data/embeddings.pkl --output-dir data/
+
+python scripts/commom_cells_in_clusters.py data/embeddings.pkl --output-dir data/
+
+python scripts/export_data_csv.py --clusters data/best_agglomerative_model.pkl --points data/pca.pkl data/kpca.pkl data/tsne_2d.pkl data/tsne_3d.pkl --output-dir data/
+
+python scripts/prepare_plot.py --points data/tsne_2d.pkl --clusters data/best_agglomerative_model.pkl --output-file data/plot.json --limit-images 10000
+
+python scripts/visualize_embeddings.py data/plot.json
