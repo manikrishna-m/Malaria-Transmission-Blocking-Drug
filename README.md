@@ -1,6 +1,6 @@
 # Data Processing and Visualization Pipeline
 
-This repository contains a data processing and visualization pipeline for [BioImages](https://www.ebi.ac.uk/biostudies/bioimages) dataset.
+This repository contains a PHIDDLI model pipeline for malaria dataset
 
 ## Prerequisites
 
